@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  text-embeddings-inference:
+    image: ghcr.io/huggingface/text-embeddings-inference:cpu-1.6
+    ports:
+      - "8080:80"
+    volumes:
+      - "./data:/data"
+    command: ["--model-id", "nomic-ai/nomic-embed-text-v1.5"]

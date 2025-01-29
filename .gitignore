@@ -173,3 +173,5 @@ cython_debug/
 # ignore jupyter notebooks
 .ipynb_checkpoints/
 *.ipynb
+
+data/
