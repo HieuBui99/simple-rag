@@ -7,3 +7,10 @@ services:
     volumes:
       - "./data:/data"
     command: ["--model-id", "nomic-ai/nomic-embed-text-v1.5"]
+
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env

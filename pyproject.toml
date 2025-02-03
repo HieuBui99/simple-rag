@@ -7,6 +7,7 @@ requires-python = ">=3.12"
 dependencies = [
     "aiohttp>=3.11.11",
     "faiss-cpu>=1.9.0.post1",
+    "fastapi>=0.115.8",
     "instructor>=1.7.2",
     "numpy>=2.2.2",
     "openai>=1.60.2",
@@ -14,6 +15,7 @@ dependencies = [
     "pydantic>=2.10.6",
     "python-dotenv>=1.0.1",
     "requests>=2.32.3",
+    "uvicorn>=0.34.0",
 ]
 
 [tool.ruff]
