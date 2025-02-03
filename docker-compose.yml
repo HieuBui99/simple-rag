@@ -1,12 +1,20 @@
 version: '3.8'
 services:
-  text-embeddings-inference:
+  vectorizer:
     image: ghcr.io/huggingface/text-embeddings-inference:cpu-1.6
     ports:
       - "8080:80"
     volumes:
       - "./data:/data"
     command: ["--model-id", "nomic-ai/nomic-embed-text-v1.5"]
+
+  reranker:
+    image: ghcr.io/huggingface/text-embeddings-inference:cpu-1.6
+    ports:
+      - "8081:80"
+    volumes:
+      - "./data:/data"
+    command: ["--model-id", "BAAI/bge-reranker-large"]
 
   api:
     build: .
