@@ -43,4 +43,4 @@ class Settings:
         return self._DATA_PATH
     
 
-settings = Settings()
+app_settings = Settings()
