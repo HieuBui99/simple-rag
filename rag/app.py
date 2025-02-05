@@ -12,7 +12,7 @@ from .models import Query
 from .rag_controller import rerank, search
 from .settings import app_settings
 
-
+from pprint import pprint
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print("Initializing vector search index!!")
@@ -54,5 +54,7 @@ async def handle_query(query: Query):
     search_results = await search(query.query, app.state.index)
     reranked_results = await rerank(query.query, app.state.documents, search_results)
     prompt = build_prompt(query.query, reranked_results)
+    print("Question: ", query.query)
     thought, answer = await get_chat_response(prompt)
+    print("Answer: ", answer)
     return {"thought": thought, "answer": answer}
