@@ -7,9 +7,11 @@ import pandas as pd
 from fastapi import FastAPI, Request
 from rank_bm25 import BM25Okapi
 
+from .chat_ollama import build_prompt, get_chat_response
 from .models import Query
+from .rag_controller import rerank, search
 from .settings import app_settings
-from .rag_controller import search, rerank
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -51,4 +53,6 @@ async def health_check(request: Request):
 async def handle_query(query: Query):
     search_results = await search(query.query, app.state.index)
     reranked_results = await rerank(query.query, app.state.documents, search_results)
-    return {"query": query.query}
+    prompt = build_prompt(query.query, reranked_results)
+    thought, answer = await get_chat_response(prompt)
+    return {"thought": thought, "answer": answer}
