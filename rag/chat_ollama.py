@@ -1,16 +1,28 @@
+import asyncio
 import json
 import os
 import re
-import asyncio
-import aiohttp
 from contextlib import closing
 from io import BytesIO
-from typing import Dict, Iterator, Optional, AsyncGenerator
+from typing import AsyncGenerator, Dict, List, Optional, Tuple
 
+import aiohttp
 import requests
 from dotenv import load_dotenv
 
+from .settings import app_settings
+
 load_dotenv()
+
+
+PROMPT_TEMPLATE = """
+You are an assistant for an anime website. Answer the user's QUESTION about anime using the provided CONTEXT. Be succinct. Ignore any contexts in the list that don't seem relevant to the QUESTION.
+
+QUESTION: {question}
+
+CONTEXT:
+{context}
+""".strip()
 
 
 def split_text(text):
@@ -27,6 +39,16 @@ def split_text(text):
     return thought, rest
 
 
+def build_prompt(query: str, search_results: List[str]) -> str:
+    context = ""
+
+    for doc in search_results:
+        context += "Anime Title: " + doc + "\n\n"
+
+    prompt = PROMPT_TEMPLATE.format(question=query, context=context)
+    return prompt
+
+
 async def stream_chat_response(url: str, payload: Dict) -> AsyncGenerator[bytes, None]:
     async with aiohttp.ClientSession() as session:
         async with session.post(url, json=payload) as response:
@@ -34,11 +56,25 @@ async def stream_chat_response(url: str, payload: Dict) -> AsyncGenerator[bytes,
                 yield data
 
 
-async def get_chat_response(url: str, payload: Dict) -> Optional[Dict]:
+async def get_chat_response(prompt: str) -> Tuple[Optional[str], Optional[str]]:
+    payload = {
+        "model": app_settings.MODEL,
+        "messages": [{"role": "user", "content": prompt}],
+        "options": {"temperature": app_settings.OLLAMA_TEMPERATURE},
+    }
+
     async with aiohttp.ClientSession() as session:
-        async with session.post(url, json=payload) as response:
+        async with session.post(app_settings.OLLAMA_ENDPOINT, json=payload) as response:
             response_data = await response.read()
-    return response_data
+
+    model_output = ""
+    for line in response_data.decode("utf-8").split("\n"):
+        if line:
+            response_json = json.loads(line)
+            model_output += response_json["message"]["content"]
+
+    thought, answer = split_text(model_output)
+    return thought, answer
 
 
 async def main():
@@ -51,7 +87,7 @@ async def main():
         ],
         "options": {
             "temperature": 0.5,
-        }
+        },
     }
     response = await get_chat_response(url, payload)
 

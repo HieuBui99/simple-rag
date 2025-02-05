@@ -47,7 +47,7 @@ async def search(query: str, indexes: dict, top_k: int = 5):
 
 async def rerank(
     query: str, documents: List[str], search_results: Dict, top_k: int = 4
-):
+) -> List[str]:
     semantic_documents = documents[search_results["semantic"]].tolist()
     lexical_documents = documents[search_results["lexical"]].tolist()
 
