@@ -17,6 +17,7 @@ Tech stack:
 * Huggingface's [text-embedding-inference](https://github.com/huggingface/text-embeddings-inference) for text embeddings and reranker.
 * FastAPI as API interface.
 * Docker and Docker Compose for containerization.
+* Terraform to setup infrastructure
 
 <img src="./assets/test.png" />
 
