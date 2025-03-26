@@ -1,6 +1,6 @@
 # TonAI RAG
 
-**A simple Anime QA Chatbot powered by DeepSeek-R1 and Ollama**
+**A simple Anime QA Chatbot powered by DeepSeek and Ollama**
 
 <p align="center">
    <img src="./assets/splash.png" height="100" />
