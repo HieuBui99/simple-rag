@@ -2,13 +2,13 @@ import requests
 import json
 import base64
 from io import BytesIO
-https://github.com/HieuBui99/simple-rag.git
+
 def ollama_stream_inference(
     prompt: str = "Hi, this is a dummy prompt",
     model: str = "deepseek-r1:14b",
     url: str = None,
     image_path: str = ""
-):https://github.com/HieuBui99/simple-rag.git
+):
     """
     Send a streaming request to Ollama using the given prompt and model,
     and print out the response text in real time.
@@ -80,6 +80,6 @@ if __name__ == "__main__":
     full_response = ollama_stream_inference(
         prompt ="Why is the sky blue?",
         model = "gemma3:27b",
-        url = "http://27.66.108.30:7860/api/generate"
+        url = "http://0.0.0.0:11434/api/generate"
     )
     print(full_response)
