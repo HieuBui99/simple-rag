@@ -12,7 +12,7 @@ from tqdm import tqdm
 load_dotenv()
 
 DATA_PATH = "../data/anime.csv"
-
+ 
 
 def chunked(iterable, size):
     for i in range(0, len(iterable), size):
