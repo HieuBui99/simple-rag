@@ -3,7 +3,7 @@
 **A simple Anime QA Chatbot powered by DeepSeek and Ollama**
 
 <p align="center">
-   <img src="./assets/splash.png" height="100" />
+   <img src="https://github.com/tungedng2710/tungedng2710.github.io/blob/main/assets/images/logo.png" height="100" />
    <img src="./assets/ollama_logo.png" height="100" />
 </p>
 
