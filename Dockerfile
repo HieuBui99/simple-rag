@@ -14,4 +14,4 @@ RUN uv pip install -r pyproject.toml --system
 
 COPY rag/ rag/
 
-CMD ["uvicorn", "rag.app:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "rag.app:app", "--reload", "--host", "0.0.0.0", "--port", "8000"]
